@@ -20,9 +20,29 @@ import os
 from google.appengine.ext import db
 import crawler_gae
 from google.appengine.api import memcache
+import datetime
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
+
+def menu_list(menu):
+	menu_l = []
+	menu_l.append(keys_to_models(menu.breakfast))
+	menu_l.append(keys_to_models(menu.brunch))
+	menu_l.append(keys_to_models(menu.lunch))
+	menu_l.append(keys_to_models(menu.dinner))
+
+	return menu_l
+
+def keys_to_models(keys):
+	if len(keys) == 0:
+		return
+
+	models = []
+	for key in keys:
+		models.append(db.get(key))
+
+	return models
 
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
@@ -37,13 +57,36 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-    	items = memcache.get("menu_items")
-    	if items:
-    		self.render("index.html", menu_items=items)
+    	commons_today = memcache.get("today|commons")
+    	hill_today    = memcache.get("today|hill")
+    	kc_today      = memcache.get("today|kc")
+
+    	if commons_today and hill_today and kc_today:
+    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
+
     	else:
-    		items = db.GqlQuery("SELECT * FROM MenuItem")
-    		memcache.set("menu_items", items)
-        	self.render("index.html", menu_items=items)
+    		date_today = datetime.date.today()
+    		date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+    		menus = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
+    		menus = list(menus)
+    		for menu in menus:
+    			commons = None
+    			hill    = None
+    			kc      = None
+    			if menu.hall_name == "Commons":
+    				commons = menu_list(menu)
+    			elif menu.hall_name == "Hill":
+    				hill = menu_list(menu)
+    			elif menu.hall_name == "KC":
+    				kc = menu_list(menu)
+    		
+    		if commons != None:
+    			memcache.set("today|commons", commons)
+    		if hill != None:	
+    			memcache.set("today|hill", hill)
+    		if kc != None:
+    			memcache.set("today|kc", kc)
+    		self.render("index.html", commons=commons, hill=hill, kc=kc)
 
     def post(self):
      	self.redirect('/do')
@@ -80,6 +123,7 @@ class MenuItem(db.Model):
 	name            = db.StringProperty()
 	description     = db.StringProperty()
 	food_category   = db.StringProperty()
+	hall_name       = db.StringProperty()
 	upvotes_prev    = db.IntegerProperty()
 	downvotes_prev  = db.IntegerProperty()
 	upvotes_today   = db.IntegerProperty()

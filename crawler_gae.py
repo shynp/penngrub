@@ -22,8 +22,10 @@ soup_kc      = BeautifulSoup(kc_weekly_content)
 halls = [soup_commons, soup_hill, soup_kc]
 
 def crawl():
-	global soup_commons
-	halls = [soup_commons]
+	#global soup_commons
+	#halls = [soup_commons]
+
+	global halls
 
 	for hall in halls:
 		hall_name = None
@@ -64,25 +66,26 @@ def crawl():
 							menu_item_desc = "No description."
 
 						# Add menu_item to memcache and database if not already there
-						if not memcache.get(menu_item_name):
-							db_item = main.MenuItem(key_name=menu_item_name, name=menu_item_name, description=menu_item_desc, food_category=str(meal_category.next.next), 
-													upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
+						#if not memcache.get(menu_item_name):
+						db_item = main.MenuItem(key_name=menu_item_name + "|" + hall_name, name=menu_item_name, description=menu_item_desc, 
+												food_category=str(meal_category.next.next), hall_name=hall_name, upvotes_prev=0, upvotes_today=0,
+												downvotes_prev=0, downvotes_today=0)
 
-							meal_name = meal.next
-							if meal_name == "LUNCH":
-								db_menu.lunch.append(db_item.key())
-							elif meal_name == "BREAKFAST":
-								db_menu.breakfast.append(db_item.key())
-							elif meal_name == "BRUNCH":
-								db_menu.brunch.append(db_item.key())
-							elif meal_name == "DINNER":
-								db_menu.dinner.append(db_item.key())
+						meal_name = meal.next
+						if meal_name == "LUNCH":
+							db_menu.lunch.append(db_item.key())
+						elif meal_name == "BREAKFAST":
+							db_menu.breakfast.append(db_item.key())
+						elif meal_name == "BRUNCH":
+							db_menu.brunch.append(db_item.key())
+						elif meal_name == "DINNER":
+							db_menu.dinner.append(db_item.key())
 
 							db_item.put()
 							memcache.set(menu_item_name, db_item)
 
-
-			db_menu.put()
+			if len(db_menu.breakfast) > 0 or len(db_menu.lunch) > 0 or len(db_menu.brunch) > 0 or len(db_menu.dinner) > 0:
+				db_menu.put()
 
 
 def print_db():
