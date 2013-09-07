@@ -16,6 +16,9 @@
   position: relative;
 }
 
+.breakfast_option{
+}
+
 .breakfast, .brunch, .lunch, .dinner{
   clear: both;
 }
