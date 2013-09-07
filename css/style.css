@@ -1,0 +1,58 @@
+body
+{
+background-color:#ffcc66;
+}
+
+
+#container {
+	min-height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+#all_halls{
+	background-color:#ff0066;
+	float: left;
+	width: 0%;
+	display: none;
+}
+#hill{
+	width: 32%;
+	float: left;
+}
+
+#commons{
+	width: 32%;
+	float: left;
+}
+
+#kingscourt{
+	width: 32%;
+	float: left;
+
+}
+
+#popoutbutton{
+	background-color:#ff0066;
+	width: 4%;
+	float: left;
+
+}
+
+.center{
+	text-align: center;
+}
+

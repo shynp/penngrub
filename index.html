@@ -1,2 +1,348 @@
-{{commons[2][1].name}}
-{{commons[2][1].description}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="shortcut icon" href="ico/logo.png">
+
+  <title>PennGrub</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <!-- Bootstrap theme -->
+  <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/theme.css" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+      <![endif]-->
+    </head>
+
+    <body>
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">PennGrub</a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active" class="top_bar" id="hill_top_bar"><a>Hill</a></li>
+              <li class="top_bar" id="commons_top_bar"><a>Commons</a></li>
+              <li class="top_bar" id="kingscourt_top_bar"><a>King's Court</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <div class="container theme-showcase">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron" id ="hill">
+          <h1>Hill College House</h1>
+
+          <div class="btn-group btn-group-justified">
+            <a class="btn btn-default breakfast_option">Breakfast</a>
+            <a class="btn btn-default brunch_option">Brunch</a>
+            <a class="btn btn-default lunch_option">Lunch</a>
+            <a class="btn btn-default dinner_option">Dinner</a>
+          </div>
+
+
+          <div class="breakfast" id="hill_breakfast" class = "clear_right">
+            <h3>The Soggy Egg and Mystery Meat Section</h3>
+            <h5 class="item">I dont know what the hell to eat
+              <button type="button" class="btn btn-xs btn-success upvote">+ 2</button>      
+              <button type="button" class="btn btn-xs btn-danger downvote">- 3</button>
+            </h5>
+            <p>Literally leaking</p>
+            <h5 class="item">Turkey Sausage</h5>
+            <p>Wtf is turkey sausage</p>
+            <h3>The Omelette Section</h3>
+            <h5 class="item">Onions</h5>
+            <h3>The Miscellaneous Carb Section</h3>
+            <h5 class="item">French Toast</h5>
+            <p>Probably very dry and tasteless</p>
+            <h5 class="item">Pancakes</h5>
+            <p>Thin slabs of rubber</p>
+          </div>
+          <div class="brunch" id="hill_brunch">Brunch</div>
+          <div class="lunch" id="hill_lunch">Lunch</div>
+          <div class="dinner" id="hill_dinner">Dinner</div>
+        </div>
+
+        <div class="jumbotron" id ="commons">
+          <h1>1920's Commons</h1>
+
+          <div class="btn-group btn-group-justified">
+            <a class="btn btn-default breakfast_option">Breakfast</a>
+            <a class="btn btn-default brunch_option">Brunch</a>
+            <a class="btn btn-default lunch_option">Lunch</a>
+            <a class="btn btn-default dinner_option">Dinner</a>
+          </div>
+
+          <div class="breakfast" id="commons_breakfast" class="clear_right">
+            <h3>The Soggy Egg and Mystery Meat Section</h3>
+            <h5 class="item">I dont know what the fuck to eat
+              <button type="button" class="btn btn-xs btn-success upvote">+ 3</button>      
+              <button type="button" class="btn btn-xs btn-danger downvote">- 10</button>
+            </h5>
+          </div>
+          <div class="brunch" id="commons_brunch">Brunch</div>
+          <div class="lunch" id="commons_lunch">Lunch</div>
+          <div class="dinner" id="commons_dinner">Dinner</div>
+          
+        </div>
+        <div class="jumbotron" id ="kingscourt">
+          <h1>Kings Court English House</h1>
+          
+          <div class="btn-group btn-group-justified">
+            <a class="btn btn-default breakfast_option">Breakfast</a>
+            <a class="btn btn-default brunch_option">Brunch</a>
+            <a class="btn btn-default lunch_option">Lunch</a>
+            <a class="btn btn-default dinner_option">Dinner</a>
+          </div>
+
+          <div class="breakfast" id="kceh_breakfast" class="clear_right">Breakfast</div>
+          <div class="brunch" id="kceh_brunch">Brunch</div>
+          <div class="lunch" id="kceh_lunch">Lunch</div>
+          <div class="dinner" id="kceh_dinner">Dinner</div>
+        </div>
+
+
+      </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script>
+    $(document).ready(function(){
+      $("#commons").hide();
+      $("#kingscourt").hide();
+
+
+      var d = new Date();
+      var day = d.getDay();
+      var hour = d.getHours();
+
+      if (day != 0 && day != 6) {
+       $(".brunch_option").hide();
+       $("#kingscourt_top_bar").show();
+     }
+     else if(day == 0 || day == 6){
+       $(".breakfast_option").hide();
+       $(".lunch_option").hide();
+       $("#kingscourt_top_bar").hide();
+       $(".brunch_option").show();
+     }
+
+     if((day == 0 || day == 6) && hour <= 15){
+      $(".breakfast").hide();
+      $(".lunch").hide();
+      $(".dinner").hide();
+      $(".brunch").show();
+    }
+    else if(hour > 14){
+      $(".brunch").hide();
+      $(".breakfast").hide();
+      $(".lunch").hide();
+      $(".dinner").show();
+    }
+    else if(hour > 9){
+      $(".brunch").hide();
+      $(".breakfast").hide();
+      $(".dinner").hide();
+      $(".lunch").show();
+    }
+    else{
+      $(".brunch").hide();
+      $(".lunch").hide();
+      $(".dinner").hide();
+      $(".breakfast").show();
+    }
+
+    $(".upvote").click(function(){
+        bool = false;
+        var nx = $(this).next();
+        var xy = $(this).hasClass("clicked");
+        if ((!($(this).hasClass("clicked")))){
+          if (nx.hasClass("clicked")){
+            bool = true;
+            var xa = $(nx).html();
+            console.log (xa);
+            var ya = xa.split(" ");
+            var za = parseInt(ya[1]);
+            za = za - 1;
+            ya[1] = za;
+            $(nx).html (ya.join(" "));
+            var aa = $(nx).parent().html().split("<");
+            var ba = aa[0];
+            var ca = $(nx).parent().parent().parent().attr('id');
+            $(nx).attr("style", "color: white");
+            $(nx).removeClass ("clicked");
+          }
+          else {
+            bool = false;
+          }
+          var x = $(this).html();
+          var y=x.split(" ");
+          var z = parseInt(y[1]);
+          z = z + 1;
+          y[1] = z;
+          $(this).html (y.join(" "));
+          var a = $(this).parent().html().split("<");
+          var b = a[0];
+          var c = $(this).parent().parent().parent().attr('id');
+          $(this).attr("style", "color: black");
+          $(this).addClass ("clicked");
+          console.log (bool);
+          // $.ajax ({
+          //   url: '/ajaxvote.py',
+          //   type:'POST',
+          //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
+          //   dataType: "json",
+          //   async: false,
+          //   cache; false
+          // });
+        }
+
+
+      })
+
+      $(".downvote").click(function(){
+        var pr = $(this).prev();
+        var bool = false;
+        if ((!($(this).hasClass("clicked")))) {
+          if (pr.hasClass("clicked")){
+            bool = true;
+            var xa = $(pr).html();
+            console.log (xa);
+            var ya = xa.split(" ");
+            var za = parseInt(ya[1]);
+            za = za - 1;
+            ya[1] = za;
+            $(pr).html (ya.join(" "));
+            var aa = $(pr).parent().html().split("<");
+            var ba = aa[0];
+            var ca = $(pr).parent().parent().parent().attr('id');
+            $(pr).attr("style", "color: white");
+            $(pr).removeClass ("clicked");
+          }
+          else {
+            bool = false;
+          }
+          var x = $(this).html();
+          var y=x.split(" ");
+          var z = parseInt(y[1]);
+          z = z + 1;
+          y[1] = z;
+          $(this).html (y.join(" "));
+          var a = $(this).parent().html().split("<");
+          var b = a[0];
+          var c = $(this).parent().parent().parent().attr('id');
+          $(this).attr("style", "color: black");
+          $(this).addClass ("clicked");
+          console.log (bool);
+          // $.ajax ({
+          //   url: '/ajaxvote.py',
+          //   type:'POST',
+          //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
+          //   dataType: "json",
+          //   async: false,
+          //   cache; false
+          // });
+        }
+    })
+
+
+
+
+
+    $("#hill_top_bar").click(function(){
+      $("#hill").slideDown();
+      $("#commons").slideUp();
+      $("#kingscourt").slideUp();
+      $("#hill_top_bar").addClass("active");
+      $("#commons_top_bar").removeClass("active"); 
+      $(".navbar-toggle").addClass("collapsed");
+      $('.btn-navbar').addClass('collapsed');
+      $('.nav-collapse').removeClass('in').css('height', '0');
+      $('.navbar-collapse').collapse('hide');
+    })
+    $("#commons_top_bar").click(function(){
+      $("#commons").slideDown();
+      $("#hill").slideUp();
+      $("#kingscourt").slideUp();
+      $("#commons_top_bar").addClass("active");
+      $("#hill_top_bar").removeClass("active");
+      $("#kingscourt_top_bar").removeClass("active");
+      $('.navbar-collapse').collapse('hide');
+    })
+    $("#kingscourt_top_bar").click(function(){
+      $("#kingscourt").slideDown();
+      $("#hill").slideUp();
+      $("#commons").slideUp();
+      $("#kingscourt_top_bar").addClass("active");
+      $("#hill_top_bar").removeClass("active");
+      $("#commons_top_bar").removeClass("active");
+      $('.navbar-collapse').collapse('hide');
+    })
+    $(".breakfast_option").click(function(){
+      $(".breakfast").slideDown();
+      $(".brunch").slideUp();
+      $(".lunch").slideUp();
+      $(".dinner").slideUp();
+      $(".breakfast_option").addClass("active");
+      $(".brunch_option").removeClass("active");
+      $(".lunch_option").removeClass("active");
+      $(".dinner_option").removeClass("active");
+    })
+    $(".brunch_option").click(function(){
+      $(".breakfast").slideUp();
+      $(".brunch").slideDown();
+      $(".lunch").slideUp();
+      $(".dinner").slideUp();
+      $(".breakfast_option").removeClass("active");
+      $(".brunch_option").addClass("active");
+      $(".lunch_option").removeClass("active");
+      $(".dinner_option").removeClass("active");
+    })
+    $(".lunch_option").click(function(){
+      $(".breakfast").slideUp();
+      $(".brunch").slideUp();
+      $(".lunch").slideDown();
+      $(".dinner").slideUp();
+      $(".breakfast_option").removeClass("active");
+      $(".brunch_option").removeClass("active");
+      $(".lunch_option").addClass("active");
+      $(".dinner_option").removeClass("active");
+    })
+    $(".dinner_option").click(function(){
+      $(".breakfast").slideUp();
+      $(".brunch").slideUp();
+      $(".lunch").slideUp();
+      $(".dinner").slideDown();
+      $(".breakfast_option").removeClass("active");
+      $(".brunch_option").removeClass("active");
+      $(".lunch_option").removeClass("active");
+      $(".dinner_option").addClass("active");
+    })
+  })
+</script>
+</body>
+</html>
