@@ -1,3 +1,136 @@
-<form method='post'>
-	<input type='submit'>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="ico/favicon.png">
+
+    <title>PennGrub</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">PennGrub</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active" class="top_bar" id="hill_top_bar"><a>Hill</a></li>
+            <li class="top_bar" id="commons_top_bar"><a>Commons</a></li>
+            <li class="top_bar" id="kingscourt_top_bar"><a>King's Court</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container theme-showcase">
+
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron" id ="hill">
+        <h1>Hill College House</h1>
+
+        <div class="nav_menu_options">
+          <ul class="nav navbar-nav">
+            <li class="breakfast"><a>Breakfast</a></li>
+            <li class="active" class="brunch"><a>Brunch</a></li>
+            <li class="lunch"><a>Lunch</a></li>
+            <li id="dinner"><a>Dinner</a></li>
+          </ul>
+        </div></br>
+
+
+        <div id="hill_breakfast">
+          <h3>The Soggy Egg and Mystery Meat Section</h3>
+          <h5>Eggs</h5>
+          <p>Literally leaking</p>
+          <h5>Turkey Sausage</h5>
+          <p>Wtf is turkey sausage</p>
+          <h3>The Omelette Section</h3>
+          <h5>Onions</h5>
+          <h3>The Miscellaneous Carb Section</h3>
+          <h5>French Toast</h5>
+          <p>Probably very dry and tasteless</p>
+          <h5>Pancakes</h5>
+          <p>Thin slabs of rubber</p>
+        </div>
+        <div id="hill_brunch"></div>
+        <div id="hill_lunch"></div>
+        <div id="hill_dinner"></div>
+      </div>
+      <div class="jumbotron" id ="commons">
+        <h1>1920's Commons</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      </div>
+      <div class="jumbotron" id ="kingscourt">
+        <h1>Kings Court English House</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+      </div>
+
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script>
+      $(document).ready(function(){
+      $("#commons").hide();
+      $("#kingscourt").hide();
+
+        $("#hill_top_bar").click(function(){
+          $("#hill").slideDown();
+          $("#commons").slideUp();
+          $("#kingscourt").slideUp();
+          $("#hill_top_bar").addClass("active");
+          $("#commons_top_bar").removeClass("active");
+        })
+        $("#commons_top_bar").click(function(){
+          $("#commons").slideDown();
+          $("#hill").slideUp();
+          $("#kingscourt").slideUp();
+           $("#commons_top_bar").addClass("active");
+           $("#hill_top_bar").removeClass("active");
+           $("#kingscourt_top_bar").removeClass("active");
+        })
+        $("#kingscourt_top_bar").click(function(){
+          $("#kingscourt").slideDown();
+          $("#hill").slideUp();
+          $("#commons").slideUp();
+           $("#kingscourt_top_bar").addClass("active");
+           $("#hill_top_bar").removeClass("active");
+           $("#commons_top_bar").removeClass("active");
+        })
+        $("#breakfast").click(function(){
+          $()
+        })
+      })
+    </script>
+  </body>
+</html>
