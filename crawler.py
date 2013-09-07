@@ -13,12 +13,9 @@ soup_commons = BeautifulSoup(commons_weekly_content)
 soup_hill    = BeautifulSoup(hill_weekly_content)
 soup_kc      = BeautifulSoup(kc_weekly_content)
 
-dates = soup_commons.findAll("h2")
+halls = [soup_commons, soup_hill, soup_kc]
 
-#for date in dates:
-# Have to check regex for h2 being a date.
-#	print date.next_sibling
-
+"""dates = soup_commons.findAll("h2")
 
 # Breakfast, Lunch, Dinner, Brunch nodes 
 meals = dates[0].next_sibling.findAll("h4")
@@ -34,5 +31,46 @@ menu_single = menu_items[0].next
 
 # Item name
 (menu_name, menu_desc) = menu_single.split('(')
-print menu_name
-print menu_desc
+"""
+
+db_data = {}
+
+def scrap_data():
+	global db_data
+
+	for hall in halls:
+		hall_name = None
+		if hall == soup_commons:
+			hall_name = "Commons"
+		elif hall == soup_hill:
+			hall_name = "Hill"
+		elif hall == soup_kc:
+			hall_name = "KC"
+
+		# Checks for hall_name is valid
+		if hall_name == None:
+			print "Error: hall_name is None"
+			break
+
+		dates = hall.findAll("h2")
+		for date in dates:
+			#print hall_name + " on " + date.next
+
+			meals = date.next_sibling.findAll("h4")
+			for meal in meals:
+				#print "For " + meal.next
+				meal_categories = meal.next_sibling.findAll("strong")
+
+				for meal_category in meal_categories:
+					#print "--" + meal_category.next.next
+
+					menu_items = meal_category.next_sibling.next.findAll("li")
+					for menu_item in menu_items:
+						#print "---" + menu_item.next
+
+						db_data[menu_item.next] = [hall_name, date.next, meal_category.next.next, meal.next, menu_item.next]
+
+scrap_data()
+
+for val in db_data.itervalues():
+	print val	
