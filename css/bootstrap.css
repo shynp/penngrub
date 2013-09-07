@@ -13,10 +13,12 @@
 
 /*stuff that we've added to the style*/
 .nav_menu_options {
-  clear:right;
+  position: relative;
 }
 
-
+.clear_right{
+  clear: both;
+}
 
 
 article,
@@ -6827,4 +6829,6 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+
+
 }
