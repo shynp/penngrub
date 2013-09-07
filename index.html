@@ -142,27 +142,38 @@
 
       if (day != 0 && day != 6) {
        $(".brunch_option").hide();
-     };
+       $("#kingscourt_top_bar").show();
+     }
+     else if(day == 0 || day == 6){
+       $(".breakfast_option").hide();
+       $(".lunch_option").hide();
+       $("#kingscourt_top_bar").hide();
+       $(".brunch_option").show();
+     }
 
      if((day == 0 || day == 6) && hour <= 15){
       $(".breakfast").hide();
       $(".lunch").hide();
       $(".dinner").hide();
+      $(".brunch").show();
     }
     else if(hour > 14){
       $(".brunch").hide();
       $(".breakfast").hide();
       $(".lunch").hide();
+      $(".dinner").show();
     }
     else if(hour > 9){
       $(".brunch").hide();
       $(".breakfast").hide();
       $(".dinner").hide();
+      $(".lunch").show();
     }
     else{
       $(".brunch").hide();
       $(".lunch").hide();
       $(".dinner").hide();
+      $(".breakfast").show();
     }
 
     $(".upvote").click(function(){
