@@ -15,7 +15,7 @@ soup_kc      = BeautifulSoup(kc_weekly_content)
 
 halls = [soup_commons, soup_hill, soup_kc]
 
-dates = soup_commons.findAll("h2")
+"""dates = soup_commons.findAll("h2")
 
 # Breakfast, Lunch, Dinner, Brunch nodes 
 meals = dates[0].next_sibling.findAll("h4")
@@ -31,45 +31,46 @@ menu_single = menu_items[0].next
 
 # Item name
 (menu_name, menu_desc) = menu_single.split('(')
-
-######
-
-# hall_name 
-# date
+"""
 
 db_data = {}
 
-for hall in halls:
-	hall_name = None
-	if hall == soup_commons:
-		hall_name = "Commons"
-	elif hall == soup_hill:
-		hall_name = "Hill"
-	elif hall == soup_kc:
-		hall_name = "KC"
+def scrap_data():
+	global db_data
 
-	# Checks for hall_name is valid
-	if hall_name == None:
-		print "Error: hall_name is None"
-		break
+	for hall in halls:
+		hall_name = None
+		if hall == soup_commons:
+			hall_name = "Commons"
+		elif hall == soup_hill:
+			hall_name = "Hill"
+		elif hall == soup_kc:
+			hall_name = "KC"
 
-	dates = hall.findAll("h2")
-	for date in dates:
-		#print hall_name + " on " + date.next
+		# Checks for hall_name is valid
+		if hall_name == None:
+			print "Error: hall_name is None"
+			break
 
-		meals = date.next_sibling.findAll("h4")
-		for meal in meals:
-			#print "For " + meal.next
-			meal_categories = meal.next_sibling.findAll("strong")
+		dates = hall.findAll("h2")
+		for date in dates:
+			#print hall_name + " on " + date.next
 
-			for meal_category in meal_categories:
-				#print "--" + meal_category.next.next
+			meals = date.next_sibling.findAll("h4")
+			for meal in meals:
+				#print "For " + meal.next
+				meal_categories = meal.next_sibling.findAll("strong")
 
-				menu_items = meal_category.next_sibling.next.findAll("li")
-				for menu_item in menu_items:
-					#print "---" + menu_item.next
+				for meal_category in meal_categories:
+					#print "--" + meal_category.next.next
 
-					db_data[menu_item.next] = [menu_item.next, meal_category.next.next, meal.next, date.next, hall_name]
+					menu_items = meal_category.next_sibling.next.findAll("li")
+					for menu_item in menu_items:
+						#print "---" + menu_item.next
+
+						db_data[menu_item.next] = [hall_name, date.next, meal_category.next.next, meal.next, menu_item.next]
+
+scrap_data()
 
 for val in db_data.itervalues():
 	print val	
