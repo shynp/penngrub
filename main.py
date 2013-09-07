@@ -17,6 +17,7 @@
 import webapp2
 import jinja2
 import os
+from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -36,6 +37,40 @@ class MainHandler(Handler):
     def get(self):
         self.render("index.html")
 
+    def post(self):
+     	self.redirect('/do')
+
+class DoHandler(Handler):
+	def get(self):
+		item = MenuItem(name="ItemName", food_category="Category", upvotes_prev=0, downvotes_prev=0,
+						upvotes_today=0, downvotes_today=0)
+		item.put()
+
+		items = [item.key()]
+
+		menu = Menu(breakfast=items)
+		menu.put()
+
+		self.response.out.write("DoHander Page")
+
+
+class Menu(db.Model):
+	hall_name = db.StringProperty()
+	date      = db.DateProperty()
+	breakfast = db.ListProperty(db.Key)
+	brunch    = db.ListProperty(db.Key)
+	lunch     = db.ListProperty(db.Key)
+	dinner    = db.ListProperty(db.Key)
+
+class MenuItem(db.Model):
+	name = db.StringProperty()
+	food_category   = db.StringProperty()
+	upvotes_prev    = db.IntegerProperty()
+	downvotes_prev  = db.IntegerProperty()
+	upvotes_today   = db.IntegerProperty()
+	downvotes_today = db.IntegerProperty()
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', MainHandler),
+    ('/do', DoHandler)
 ], debug=True)
