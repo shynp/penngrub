@@ -55,6 +55,7 @@ class DoHandler(Handler):
 
 
 class Menu(db.Model):
+	hall_name = db.StringProperty()
 	date      = db.DateProperty()
 	breakfast = db.ListProperty(db.Key)
 	brunch    = db.ListProperty(db.Key)
