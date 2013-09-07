@@ -165,7 +165,7 @@
       $(".dinner").hide();
     }
 
-      $(".upvote").click(function(){
+    $(".upvote").click(function(){
         bool = false;
         var nx = $(this).next();
         var xy = $(this).hasClass("clicked");
@@ -200,6 +200,14 @@
           $(this).attr("style", "color: black");
           $(this).addClass ("clicked");
           console.log (bool);
+          // $.ajax ({
+          //   url: '/ajaxvote.py',
+          //   type:'POST',
+          //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
+          //   dataType: "json",
+          //   async: false,
+          //   cache; false
+          // });
         }
 
 
@@ -239,17 +247,17 @@
           $(this).attr("style", "color: black");
           $(this).addClass ("clicked");
           console.log (bool);
+          // $.ajax ({
+          //   url: '/ajaxvote.py',
+          //   type:'POST',
+          //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
+          //   dataType: "json",
+          //   async: false,
+          //   cache; false
+          // });
         }
-        // $.ajax ({
-        //   url: '/ajaxvote.py',
-        //   type:'POST',
-        //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
-        //   dataType: "json",
-        //   async: false,
-        //   cache; false
-        // });
 
-  })
+    })
 
 
 
