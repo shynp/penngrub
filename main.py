@@ -69,6 +69,8 @@ class Menu(db.Model):
 	dinner    = db.ListProperty(db.Key)
 
 class MenuItem(db.Model):
+	name            = db.StringProperty()
+	description     = db.StringProperty()
 	food_category   = db.StringProperty()
 	upvotes_prev    = db.IntegerProperty()
 	downvotes_prev  = db.IntegerProperty()

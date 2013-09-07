@@ -3,6 +3,8 @@ import urllib2
 import webapp2
 from google.appengine.ext import db
 import unicodedata
+import main
+import re
 
 url_commons_weekly = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/1920-commons/weekly-menu.html"
 url_hill_weekly    = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/hill-house/weekly-menu.html"
@@ -53,28 +55,34 @@ def crawl():
 
 					menu_items = meal_category.next_sibling.next.findAll("li")
 					for menu_item in menu_items:
-						menu_item_str = unicode(menu_item.next).encode('ascii', 'ignore')
-						print type(menu_item_str)
-						db_item = MenuItem(key_name=menu_item_str, food_category=str(meal_category.next.next), upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
+						menu_split = re.split(r"\(|-", menu_item.next, 1)
+
+						menu_item_name = menu_split[0].replace("\n", "")
+
+						# Get menu_item_descr if it exists
+						if len(menu_split) == 2:
+							menu_item_desc = menu_split[1].replace("\n", "")
+						else:
+							menu_item_desc = "No description."
+
+						db_item = main.MenuItem(key_name=menu_item_name, name=menu_item_name, description=menu_item_desc, food_category=str(meal_category.next.next), 
+												upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
 						db_item.put()
+
+
+def print_db():
+	db_menu_items = db.GqlQuery("SELECT * FROM MenuItem")
+	db_menu_items = list(db_menu_items)
+	print type(db_menu_items)
+	print dir(db_menu_items)
+
+	print type(db_menu_items[0])
+	print dir(db_menu_items[0])
+	print db_menu_items[0].key().name()
 					
 
 class CrawlerHandler(webapp2.RequestHandler):
 	def get(self):
 		crawl()
+		#print_db()
 		self.response.out.write("Crawler Page")
-
-class Menu(db.Model):
-	hall_name = db.StringProperty()
-	date      = db.DateProperty()
-	breakfast = db.ListProperty(db.Key)
-	brunch    = db.ListProperty(db.Key)
-	lunch     = db.ListProperty(db.Key)
-	dinner    = db.ListProperty(db.Key)
-
-class MenuItem(db.Model):
-	food_category   = db.StringProperty()
-	upvotes_prev    = db.IntegerProperty()
-	downvotes_prev  = db.IntegerProperty()
-	upvotes_today   = db.IntegerProperty()
-	downvotes_today = db.IntegerProperty()
