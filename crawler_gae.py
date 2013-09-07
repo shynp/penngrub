@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib2
+import webapp2
+from google.appengine.ext import db
 import unicodedata
 
 url_commons_weekly = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/1920-commons/weekly-menu.html"
@@ -16,28 +18,14 @@ soup_kc      = BeautifulSoup(kc_weekly_content)
 
 halls = [soup_commons, soup_hill, soup_kc]
 
-"""dates = soup_commons.findAll("h2")
+def crawl():
 
-# Breakfast, Lunch, Dinner, Brunch nodes 
-meals = dates[0].next_sibling.findAll("h4")
+	# Get all menu_items from DB
+	#db_menu_items = db.GqlQuery("SELECT * FROM MenuItem")
+	#db_menu_items = list(db_menu_items)
 
-# Meal categories
-meal_categories = meals[0].next_sibling.findAll("strong")
-
-# Menu items
-menu_items = meal_categories[0].next_sibling.next.findAll("li")
-
-# Individual item
-menu_single = menu_items[0].next
-
-# Item name
-(menu_name, menu_desc) = menu_single.split('(')
-"""
-
-db_data = {}
-
-def scrap_data():
-	global db_data
+	global soup_commons
+	halls = [soup_commons]
 
 	for hall in halls:
 		hall_name = None
@@ -46,7 +34,8 @@ def scrap_data():
 		elif hall == soup_hill:
 			hall_name = "Hill"
 		elif hall == soup_kc:
-			hall_name = "KC"
+			hall_name = "KC" 
+
 
 		# Checks for hall_name is valid
 		if hall_name == None:
@@ -55,27 +44,37 @@ def scrap_data():
 
 		dates = hall.findAll("h2")
 		for date in dates:
-			#print hall_name + " on " + date.next
 
 			meals = date.next_sibling.findAll("h4")
 			for meal in meals:
-				#print "For " + meal.next
 				meal_categories = meal.next_sibling.findAll("strong")
 
-				for meal_category in meal_categories:
-					#print "--" + meal_category.next.next
+				for meal_category in meal_categories:		
 
 					menu_items = meal_category.next_sibling.next.findAll("li")
 					for menu_item in menu_items:
-						#print "---" + menu_item.next
+						menu_item_str = unicode(menu_item.next).encode('ascii', 'ignore')
+						print type(menu_item_str)
+						db_item = MenuItem(key_name=menu_item_str, food_category=str(meal_category.next.next), upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
+						db_item.put()
+					
 
-						lol = str(unicode(menu_item.next).encode('ascii', 'ignore'))
-						print type(lol)
-						#print lol
+class CrawlerHandler(webapp2.RequestHandler):
+	def get(self):
+		crawl()
+		self.response.out.write("Crawler Page")
 
-						db_data[menu_item.next] = [hall_name, date.next, meal_category.next.next, meal.next, menu_item.next]
+class Menu(db.Model):
+	hall_name = db.StringProperty()
+	date      = db.DateProperty()
+	breakfast = db.ListProperty(db.Key)
+	brunch    = db.ListProperty(db.Key)
+	lunch     = db.ListProperty(db.Key)
+	dinner    = db.ListProperty(db.Key)
 
-scrap_data()
-
-#for val in db_data.itervalues():
-#	print val	
+class MenuItem(db.Model):
+	food_category   = db.StringProperty()
+	upvotes_prev    = db.IntegerProperty()
+	downvotes_prev  = db.IntegerProperty()
+	upvotes_today   = db.IntegerProperty()
+	downvotes_today = db.IntegerProperty()
