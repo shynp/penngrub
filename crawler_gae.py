@@ -5,6 +5,7 @@ from google.appengine.ext import db
 import main
 import re
 from google.appengine.api import memcache
+from datetime import datetime
 
 url_commons_weekly = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/1920-commons/weekly-menu.html"
 url_hill_weekly    = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/hill-house/weekly-menu.html"
@@ -33,26 +34,28 @@ def crawl():
 		elif hall == soup_kc:
 			hall_name = "KC" 
 
-
 		# Checks for hall_name is valid
 		if hall_name == None:
 			print "Error: hall_name is None"
 			break
 
+
 		dates = hall.findAll("h2")
 		for date in dates:
+			date_db = datetime.strptime(date.next,'%m/%d/%Y').date()
+			db_menu = main.Menu(hall_name=hall_name, date=date_db)
 
 			meals = date.next_sibling.findAll("h4")
 			for meal in meals:
 				meal_categories = meal.next_sibling.findAll("strong")
 
-				for meal_category in meal_categories:		
-
+				for meal_category in meal_categories:
 					menu_items = meal_category.next_sibling.next.findAll("li")
+
 					for menu_item in menu_items:
 						menu_split = re.split(r"\(|-", menu_item.next, 1)
 
-						menu_item_name = menu_split[0].replace("\n", "")
+						menu_item_name = menu_split[0].replace("\n", "").title()
 
 						# Get menu_item_descr if it exists
 						if len(menu_split) == 2:
@@ -60,14 +63,26 @@ def crawl():
 						else:
 							menu_item_desc = "No description."
 
-						# Memcache
-						if memcache.get(menu_item_name):
-							print menu_item_name + " is in memcache."	
-						else:
+						# Add menu_item to memcache and database if not already there
+						if not memcache.get(menu_item_name):
 							db_item = main.MenuItem(key_name=menu_item_name, name=menu_item_name, description=menu_item_desc, food_category=str(meal_category.next.next), 
 													upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
+
+							meal_name = meal.next
+							if meal_name == "LUNCH":
+								db_menu.lunch.append(db_item.key())
+							elif meal_name == "BREAKFAST":
+								db_menu.breakfast.append(db_item.key())
+							elif meal_name == "BRUNCH":
+								db_menu.brunch.append(db_item.key())
+							elif meal_name == "DINNER":
+								db_menu.dinner.append(db_item.key())
+
 							db_item.put()
 							memcache.set(menu_item_name, db_item)
+
+
+			db_menu.put()
 
 
 def print_db():
@@ -84,5 +99,4 @@ def print_db():
 class CrawlerHandler(webapp2.RequestHandler):
 	def get(self):
 		crawl()
-		#print_db()
 		self.response.out.write("Crawler Page")

@@ -37,7 +37,13 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("index.html")
+    	items = memcache.get("menu_items")
+    	if items:
+    		self.render("index.html", menu_items=items)
+    	else:
+    		items = db.GqlQuery("SELECT * FROM MenuItem")
+    		memcache.set("menu_items", items)
+        	self.render("index.html", menu_items=items)
 
     def post(self):
      	self.redirect('/do')
@@ -58,6 +64,7 @@ class DoHandler(Handler):
 class DeleteDB(Handler):
 	def get(self):
 		db.delete(MenuItem.all())
+		db.delete(Menu.all())
 		self.response.out.write("DeleteDB")
 
 
