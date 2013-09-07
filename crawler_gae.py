@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup
 import urllib2
 import webapp2
 from google.appengine.ext import db
-import unicodedata
 import main
 import re
+from google.appengine.api import memcache
 
 url_commons_weekly = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/1920-commons/weekly-menu.html"
 url_hill_weekly    = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/hill-house/weekly-menu.html"
@@ -21,11 +21,6 @@ soup_kc      = BeautifulSoup(kc_weekly_content)
 halls = [soup_commons, soup_hill, soup_kc]
 
 def crawl():
-
-	# Get all menu_items from DB
-	#db_menu_items = db.GqlQuery("SELECT * FROM MenuItem")
-	#db_menu_items = list(db_menu_items)
-
 	global soup_commons
 	halls = [soup_commons]
 
@@ -65,9 +60,14 @@ def crawl():
 						else:
 							menu_item_desc = "No description."
 
-						db_item = main.MenuItem(key_name=menu_item_name, name=menu_item_name, description=menu_item_desc, food_category=str(meal_category.next.next), 
-												upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
-						db_item.put()
+						# Memcache
+						if memcache.get(menu_item_name):
+							print menu_item_name + " is in memcache."	
+						else:
+							db_item = main.MenuItem(key_name=menu_item_name, name=menu_item_name, description=menu_item_desc, food_category=str(meal_category.next.next), 
+													upvotes_prev=0, upvotes_today=0, downvotes_prev=0, downvotes_today=0)
+							db_item.put()
+							memcache.set(menu_item_name, db_item)
 
 
 def print_db():

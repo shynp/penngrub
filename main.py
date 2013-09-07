@@ -19,6 +19,7 @@ import jinja2
 import os
 from google.appengine.ext import db
 import crawler_gae
+from google.appengine.api import memcache
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
