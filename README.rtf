@@ -1,9 +1,9 @@
-{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf390
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;\red217\green11\blue0;\red255\green255\blue51;}
 {\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc0\levelnfcn0\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{decimal\}.}{\leveltext\leveltemplateid1\'02\'00.;}{\levelnumbers\'01;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
 {\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
-\margl1440\margr1440\vieww25400\viewh13540\viewkind0
+\margl1440\margr1440\vieww25400\viewh13260\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs28 \cf0 \ul \ulc0 README\ulnone \
@@ -22,8 +22,9 @@ Basic Git Commands (important ones are in bold):\
 \cf0 \
 \pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0\cf0 {\listtext	1.	}git init - to initialize a Git repository somewhere\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b {\listtext	2.	}git status - to check the current state of the project
+\b \cf0 {\listtext	2.	}git status - to check the current state of the project
 \b0 \
 \ls1\ilvl0
 \b {\listtext	3.	}git add <filename> - to add the file to the staging area and start tracking changes to the file
@@ -31,36 +32,42 @@ Basic Git Commands (important ones are in bold):\
 {\listtext	4.	}git add .. - (2 dots) add everything in the current directory\
 {\listtext	5.	}git reset <filename> - remove a file from the staging area\
 \ls1\ilvl0
-\b {\listtext	6.	}git commit -m "description here" - commit files in the staging area with the description in quotation marks
+\b {\listtext	6.	}git commit -am "description here" - commit files in the staging area with the description in quotation marks
 \b0 \
 {\listtext	7.	}git add '*.txt' - wildcard add. Add all the files with the txt type. Changing txt to img will add all img files.\
 {\listtext	8.	}git log - gives the log of all changes committed so far\
 {\listtext	9.	}git log --summary - gives more information of all the commits so far\
 {\listtext	
-\b 10.	}git remote add origin <URL> - pushes the local repository to the URL of the Github server \'a0that we'll need to add a remote repository. origin is the the name of your remote repository.\
-{\listtext	11.	}git push -u origin <branch name> - put the local commits in our origin to the <branch name> repository (on Github). the -u tells Git to remember the parameters so the next time you push, git will know what to do.
-\b0 \
+\b 10.	}
+\b0 git remote add origin <URL> - pushes the local repository to the URL of the Github server \'a0that we'll need to add a remote repository. origin is the the name of your remote repository.\
+{\listtext	11.	}git push -u origin <branch name> - put the local commits in our origin to the <branch name> repository (on Github). the -u tells Git to remember the parameters so the next time you push, git will know what to do.\
 \ls1\ilvl0
 \b {\listtext	12.	}git pull origin master - check changes on the master branch of the Github repository and pull down any changes into your origin branch (USE THIS TO PULL FROM THE REMOTE SITE INTO YOUR MASTER BRANCH ONLY)\
 {\listtext	13.	}git stash - stash your changes (changes you don't wanna commit just yet)\
 {\listtext	14.	}git stash apply - re-apply your changes after your pull\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b0 {\listtext	15.	}git diff HEAD - checks differences from the last commit\
+\b0 \cf0 {\listtext	15.	}git diff HEAD - checks differences from the last commit\
 {\listtext	16.	}git add <filename's path>\
 {\listtext	17.	}git diff --staged - see changes you just staged\
 {\listtext	18.	}git reset <file's path> = upstage a file using its path\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b {\listtext	19.	}git checkout -- <target> - get rid of all the changes since the last commit in the target file\
+\b \cf0 {\listtext	19.	}git checkout -- <target> - get rid of all the changes since the last commit in the target file\
 {\listtext	20.	}git branch <branch name> - add a new branch named <branch name>\
 {\listtext	21.	}git checkout <branch> - switch your current branch to the following branch name\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b0 {\listtext	22.	}git rm '*.txt' - remove all the txt files from the branch you're in\
+\b0 \cf0 {\listtext	22.	}git rm '*.txt' - remove all the txt files from the branch you're in\
 {\listtext	23.	}git rm -r <folder name> - recursively remove all the files from the folder\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b {\listtext	24.	}git commit -am "description" - commit while auto removing deleted files\
+\b \cf0 {\listtext	24.	}git commit -am "description" - commit while auto removing deleted files\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b0 {\listtext	25.	}git merge <branch name> - merge the branch with the master branch\
+\b0 \cf0 {\listtext	25.	}git merge <branch name> - merge the branch with the master branch\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
 \ls1\ilvl0
-\b {\listtext	26.	}git branch -d <branch name> - delete the branch\
+\b \cf0 {\listtext	26.	}git branch -d <branch name> - delete the branch\
 {\listtext	27.	}git branch -m <old name> <new name> - rename a local branch\
 }
