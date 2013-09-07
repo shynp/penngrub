@@ -13,7 +13,26 @@ soup_commons = BeautifulSoup(commons_weekly_content)
 soup_hill    = BeautifulSoup(hill_weekly_content)
 soup_kc      = BeautifulSoup(kc_weekly_content)
 
-dates = soup_commons.find_all("h2")
+dates = soup_commons.findAll("h2")
 
-for date in dates:
-	print date.get_text()
+#for date in dates:
+# Have to check regex for h2 being a date.
+#	print date.next_sibling
+
+
+# Breakfast, Lunch, Dinner, Brunch nodes 
+meals = dates[0].next_sibling.findAll("h4")
+
+# Meal categories
+meal_categories = meals[0].next_sibling.findAll("strong")
+
+# Menu items
+menu_items = meal_categories[0].next_sibling.next.findAll("li")
+
+# Individual item
+menu_single = menu_items[0].next
+
+# Item name
+(menu_name, menu_desc) = menu_single.split('(')
+print menu_name
+print menu_desc
