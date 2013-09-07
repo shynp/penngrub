@@ -16,9 +16,14 @@
   position: relative;
 }
 
-.clear_right{
+.breakfast, .brunch, .lunch, .dinner{
   clear: both;
 }
+
+a{
+  cursor:default;
+}
+
 
 
 article,
@@ -2350,6 +2355,7 @@ fieldset[disabled] .btn-link:focus {
 
 .btn-xs {
   padding: 1px 5px;
+  margin-left: 10px;
 }
 
 .btn-block {
