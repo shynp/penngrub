@@ -17,6 +17,7 @@
 import webapp2
 import jinja2
 import os
+from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -35,6 +36,19 @@ class Handler(webapp2.RequestHandler):
 class MainHandler(Handler):
     def get(self):
         self.render("index.html")
+
+
+class Menu(db.Model):
+	date = db.DateProperty()
+	breakfast = db.ListProperty(db.Key)
+
+class MenuItem(db.Model):
+	name = db.StringProperty()
+	food_category   = db.StringProperty()
+	upvotes_prev    = db.IntegerProperty()
+	downvotes_prev  = db.IntegerProperty()
+	upvotes_today   = db.IntegerProperty()
+	downvotes_today = db.IntegerProperty()
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
