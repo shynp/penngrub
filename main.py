@@ -18,6 +18,7 @@ import webapp2
 import jinja2
 import os
 from google.appengine.ext import db
+import crawler_gae
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -53,6 +54,11 @@ class DoHandler(Handler):
 
 		self.response.out.write("DoHander Page")
 
+class DeleteDB(Handler):
+	def get(self):
+		db.delete(MenuItem.all())
+		self.response.out.write("DeleteDB")
+
 
 class Menu(db.Model):
 	hall_name = db.StringProperty()
@@ -63,7 +69,6 @@ class Menu(db.Model):
 	dinner    = db.ListProperty(db.Key)
 
 class MenuItem(db.Model):
-	name = db.StringProperty()
 	food_category   = db.StringProperty()
 	upvotes_prev    = db.IntegerProperty()
 	downvotes_prev  = db.IntegerProperty()
@@ -72,5 +77,7 @@ class MenuItem(db.Model):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/do', DoHandler)
+    ('/do', DoHandler),
+    ('/crawler', crawler_gae.CrawlerHandler),
+    ('/delete', DeleteDB)
 ], debug=True)
