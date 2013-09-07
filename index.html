@@ -109,7 +109,11 @@
           $("#commons").slideUp();
           $("#kingscourt").slideUp();
           $("#hill_top_bar").addClass("active");
-          $("#commons_top_bar").removeClass("active");
+          $("#commons_top_bar").removeClass("active"); 
+          $(".navbar-toggle").addClass("collapsed");
+          $('.btn-navbar').addClass('collapsed');
+          $('.nav-collapse').removeClass('in').css('height', '0');
+          $('.navbar-collapse').collapse('hide');
         })
         $("#commons_top_bar").click(function(){
           $("#commons").slideDown();
@@ -118,6 +122,7 @@
            $("#commons_top_bar").addClass("active");
            $("#hill_top_bar").removeClass("active");
            $("#kingscourt_top_bar").removeClass("active");
+           $('.navbar-collapse').collapse('hide');
         })
         $("#kingscourt_top_bar").click(function(){
           $("#kingscourt").slideDown();
@@ -126,6 +131,7 @@
            $("#kingscourt_top_bar").addClass("active");
            $("#hill_top_bar").removeClass("active");
            $("#commons_top_bar").removeClass("active");
+           $('.navbar-collapse').collapse('hide');
         })
         $("#breakfast").click(function(){
           $()
