@@ -51,10 +51,17 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron" id ="hill">
         <h1>Hill College House</h1>
-        <div class="breakfast"><h2>Breakfast</h2></div>
-        <div class="brunch"><h2>Brunch</h2><div>
-        <div class="lunch"><h2>Lunch</h2></div>
-        <div class="dinner"><h2>Dinner</h2></div>
+
+        <div class="nav_menu_options">
+          <ul class="nav navbar-nav">
+            <li class="breakfast"><a>Breakfast</a></li>
+            <li class="active" class="brunch"><a>Brunch</a></li>
+            <li class="lunch"><a>Lunch</a></li>
+            <li id="dinner"><a>Dinner</a></li>
+          </ul>
+        </div></br>
+
+
         <div id="hill_breakfast">
           <h3>The Soggy Egg and Mystery Meat Section</h3>
           <h5>Eggs</h5>
@@ -69,6 +76,9 @@
           <h5>Pancakes</h5>
           <p>Thin slabs of rubber</p>
         </div>
+        <div id="hill_brunch"></div>
+        <div id="hill_lunch"></div>
+        <div id="hill_dinner"></div>
       </div>
       <div class="jumbotron" id ="commons">
         <h1>1920's Commons</h1>
@@ -116,6 +126,9 @@
            $("#kingscourt_top_bar").addClass("active");
            $("#hill_top_bar").removeClass("active");
            $("#commons_top_bar").removeClass("active");
+        })
+        $("#breakfast").click(function(){
+          $()
         })
       })
     </script>

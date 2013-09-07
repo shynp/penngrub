@@ -9,6 +9,10 @@ handlers:
   static_files: favicon.ico
   upload: favicon\.ico
 
+- url: /Penn\.jpg
+  static_files: Penn.jpg
+  upload: Penn\.jpg
+
 - url: /css
   static_dir: css
 
