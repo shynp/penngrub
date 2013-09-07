@@ -165,40 +165,85 @@
       $(".dinner").hide();
     }
 
+      $(".upvote").click(function(){
+        bool = false;
+        var nx = $(this).next();
+        var xy = $(this).hasClass("clicked");
+        if ((!($(this).hasClass("clicked")))){
+          if (nx.hasClass("clicked")){
+            bool = true;
+            var xa = $(nx).html();
+            console.log (xa);
+            var ya = xa.split(" ");
+            var za = parseInt(ya[1]);
+            za = za - 1;
+            ya[1] = za;
+            $(nx).html (ya.join(" "));
+            var aa = $(nx).parent().html().split("<");
+            var ba = aa[0];
+            var ca = $(nx).parent().parent().parent().attr('id');
+            $(nx).attr("style", "color: white");
+            $(nx).removeClass ("clicked");
+          }
+          else {
+            bool = false;
+          }
+          var x = $(this).html();
+          var y=x.split(" ");
+          var z = parseInt(y[1]);
+          z = z + 1;
+          y[1] = z;
+          $(this).html (y.join(" "));
+          var a = $(this).parent().html().split("<");
+          var b = a[0];
+          var c = $(this).parent().parent().parent().attr('id');
+          $(this).attr("style", "color: black");
+          $(this).addClass ("clicked");
+          console.log (bool);
+        }
 
-    $(".upvote").click(function(){
-      var x = $(this).html();
-      var y=x.split(" ");
-      var z = parseInt(y[1]);
-      z = z + 1;
-      y[1] = z;
-      $(this).html (y.join(" "));
-      $(this).html (y.join(" "));
-      var a = $(this).parent().html().split("<");
-      var b = a[0];
-      var c = $(this).parent().parent().parent().attr('id');
-      console.log (b);
-      console.log (c);
 
+      })
 
-    })
-
-    $(".downvote").click(function(){
-      var x = $(this).html();
-      var y=x.split(" ");
-      var z = parseInt(y[1]);
-      z = z + 1;
-      y[1] = z;
-      $(this).html (y.join(" "));
-      var a = $(this).parent().html().split("<");
-      var b = a[0];
-      var c = $(this).parent().parent().parent().attr('id');
-      console.log (b);
-      console.log (c);
+      $(".downvote").click(function(){
+        var pr = $(this).prev();
+        var bool = false;
+        if ((!($(this).hasClass("clicked")))) {
+          if (pr.hasClass("clicked")){
+            bool = true;
+            var xa = $(pr).html();
+            console.log (xa);
+            var ya = xa.split(" ");
+            var za = parseInt(ya[1]);
+            za = za - 1;
+            ya[1] = za;
+            $(pr).html (ya.join(" "));
+            var aa = $(pr).parent().html().split("<");
+            var ba = aa[0];
+            var ca = $(pr).parent().parent().parent().attr('id');
+            $(pr).attr("style", "color: white");
+            $(pr).removeClass ("clicked");
+          }
+          else {
+            bool = false;
+          }
+          var x = $(this).html();
+          var y=x.split(" ");
+          var z = parseInt(y[1]);
+          z = z + 1;
+          y[1] = z;
+          $(this).html (y.join(" "));
+          var a = $(this).parent().html().split("<");
+          var b = a[0];
+          var c = $(this).parent().parent().parent().attr('id');
+          $(this).attr("style", "color: black");
+          $(this).addClass ("clicked");
+          console.log (bool);
+        }
         // $.ajax ({
         //   url: '/ajaxvote.py',
         //   type:'POST',
-        //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c}),
+        //   data: ({type: "down", updatedvalue: z, menuitem: b, dininghall: c, switched: bool}),
         //   dataType: "json",
         //   async: false,
         //   cache; false
