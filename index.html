@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="ico/favicon.png">
 
-    <title>Theme Template for Bootstrap</title>
+    <title>PennGrub</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
@@ -21,10 +21,6 @@
       <script src="../../assets/js/html5shiv.js"></script>
       <script src="../../assets/js/respond.min.js"></script>
     <![endif]-->
-    <script>
-      $("#commons").hide();
-      $("#kingscourt").hide();
-    </script>
   </head>
 
   <body>
@@ -38,13 +34,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">PennGrub</a>
+          <a class="navbar-brand">PennGrub</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active" id="hill_top_bar"><a>Hill</a></li>
-            <li id="commons_top_bar"><a>Commons</a></li>
-            <li id="kingscourt_top_bar"><a>King's Court</a></li>
+            <li class="active" class="top_bar" id="hill_top_bar"><a>Hill</a></li>
+            <li class="top_bar" id="commons_top_bar"><a>Commons</a></li>
+            <li class="top_bar" id="kingscourt_top_bar"><a>King's Court</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -54,19 +50,33 @@
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron" id ="hill">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+        <h1>Hill College House</h1>
+        <div class="breakfast"><h2>Breakfast</h2></div>
+        <div class="brunch"><h2>Brunch</h2><div>
+        <div class="lunch"><h2>Lunch</h2></div>
+        <div class="dinner"><h2>Dinner</h2></div>
+        <div id="hill_breakfast">
+          <h3>The Soggy Egg and Mystery Meat Section</h3>
+          <h5>Eggs</h5>
+          <p>Literally leaking</p>
+          <h5>Turkey Sausage</h5>
+          <p>Wtf is turkey sausage</p>
+          <h3>The Omelette Section</h3>
+          <h5>Onions</h5>
+          <h3>The Miscellaneous Carb Section</h3>
+          <h5>French Toast</h5>
+          <p>Probably very dry and tasteless</p>
+          <h5>Pancakes</h5>
+          <p>Thin slabs of rubber</p>
+        </div>
       </div>
       <div class="jumbotron" id ="commons">
-        <h1>Hello, world!</h1>
+        <h1>1920's Commons</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
       </div>
       <div class="jumbotron" id ="kingscourt">
-        <h1>Hello, world!</h1>
+        <h1>Kings Court English House</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
       </div>
 
 
@@ -81,20 +91,31 @@
     <script src="js/holder.js"></script>
     <script>
       $(document).ready(function(){
+      $("#commons").hide();
+      $("#kingscourt").hide();
+
         $("#hill_top_bar").click(function(){
           $("#hill").slideDown();
           $("#commons").slideUp();
           $("#kingscourt").slideUp();
+          $("#hill_top_bar").addClass("active");
+          $("#commons_top_bar").removeClass("active");
         })
         $("#commons_top_bar").click(function(){
           $("#commons").slideDown();
           $("#hill").slideUp();
           $("#kingscourt").slideUp();
+           $("#commons_top_bar").addClass("active");
+           $("#hill_top_bar").removeClass("active");
+           $("#kingscourt_top_bar").removeClass("active");
         })
         $("#kingscourt_top_bar").click(function(){
           $("#kingscourt").slideDown();
           $("#hill").slideUp();
           $("#commons").slideUp();
+           $("#kingscourt_top_bar").addClass("active");
+           $("#hill_top_bar").removeClass("active");
+           $("#commons_top_bar").removeClass("active");
         })
       })
     </script>

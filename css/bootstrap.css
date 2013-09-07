@@ -4190,6 +4190,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
+
 }
 
 @media (min-width: 768px) {
@@ -4926,6 +4927,16 @@ a.list-group-item.active > .badge,
   background-color: #eeeeee;
 }
 
+#hill {
+  background-color: #ccffff;
+}
+#commons {
+  background-color: #ffcc99;
+}
+#kingscourt {
+  background-color: #ccffcc;
+}
+
 .jumbotron h1 {
   line-height: 1;
   color: inherit;
@@ -4933,6 +4944,7 @@ a.list-group-item.active > .badge,
 
 .jumbotron p {
   line-height: 1.4;
+  font-size: 12px;
 }
 
 .container .jumbotron {
