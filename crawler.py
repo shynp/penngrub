@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 import urllib2
+import unicodedata
 
 url_commons_weekly = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/1920-commons/weekly-menu.html"
 url_hill_weekly    = "http://cms.business-services.upenn.edu/dining/hours-locations-a-menus/residential-dining/hill-house/weekly-menu.html"
@@ -68,9 +69,13 @@ def scrap_data():
 					for menu_item in menu_items:
 						#print "---" + menu_item.next
 
+						lol = str(unicode(menu_item.next).encode('ascii', 'ignore'))
+						print type(lol)
+						#print lol
+
 						db_data[menu_item.next] = [hall_name, date.next, meal_category.next.next, meal.next, menu_item.next]
 
 scrap_data()
 
-for val in db_data.itervalues():
-	print val	
+#for val in db_data.itervalues():
+#	print val	
