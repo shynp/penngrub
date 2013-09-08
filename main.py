@@ -22,15 +22,21 @@ import crawler_gae
 from google.appengine.api import memcache
 import datetime
 
+import update_memcache
+
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
 
 def menu_list(menu):
 	menu_l = []
-	menu_l.append(keys_to_models(menu.breakfast))
-	menu_l.append(keys_to_models(menu.brunch))
-	menu_l.append(keys_to_models(menu.lunch))
-	menu_l.append(keys_to_models(menu.dinner))
+	if menu.breakfast:
+		menu_l.append(keys_to_models(menu.breakfast))
+	if menu.brunch:
+		menu_l.append(keys_to_models(menu.brunch))
+	if menu.lunch:
+		menu_l.append(keys_to_models(menu.lunch))
+	if menu.dinner:
+		menu_l.append(keys_to_models(menu.dinner))
 
 	return menu_l
 
@@ -61,7 +67,7 @@ class MainHandler(Handler):
     	hill_today    = memcache.get("today|hill")
     	kc_today      = memcache.get("today|kc")
 
-    	if commons_today and hill_today and kc_today:
+    	if commons_today or hill_today or kc_today:
     		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
 
     	else:
@@ -69,10 +75,12 @@ class MainHandler(Handler):
     		date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     		menus = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
     		menus = list(menus)
+
+    		commons = None
+    		hill = None
+    		kc = None
+
     		for menu in menus:
-    			commons = None
-    			hill    = None
-    			kc      = None
     			if menu.hall_name == "Commons":
     				commons = menu_list(menu)
     			elif menu.hall_name == "Hill":
@@ -93,15 +101,6 @@ class MainHandler(Handler):
 
 class DoHandler(Handler):
 	def get(self):
-		item = MenuItem(name="ItemName", food_category="Category", upvotes_prev=0, downvotes_prev=0,
-						upvotes_today=0, downvotes_today=0)
-		item.put()
-
-		items = [item.key()]
-
-		menu = Menu(breakfast=items)
-		menu.put()
-
 		self.response.out.write("DoHander Page")
 
 class DeleteDB(Handler):
@@ -133,5 +132,6 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/do', DoHandler),
     ('/crawler', crawler_gae.CrawlerHandler),
-    ('/delete', DeleteDB)
+    ('/delete', DeleteDB),
+    ('/update', update_memcache.Update_Cache)
 ], debug=True)

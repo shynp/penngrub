@@ -22,9 +22,6 @@ soup_kc      = BeautifulSoup(kc_weekly_content)
 halls = [soup_commons, soup_hill, soup_kc]
 
 def crawl():
-	#global soup_commons
-	#halls = [soup_commons]
-
 	global halls
 
 	for hall in halls:
