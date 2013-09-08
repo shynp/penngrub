@@ -1,0 +1,14 @@
+{{hill}}
+
+<br>
+
+{% for item in kc %}
+	{% if item != None %}
+		{% for a in item %}
+			{% if a != None %}
+					{{a.name}} <br>
+			{% endif %}
+		{% endfor %}
+	{% endif %}
+	<b>end of meal type</b> <br>
+{% endfor %}
