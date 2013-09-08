@@ -65,6 +65,8 @@ def crawl():
 						else:
 							menu_item_desc = "No description."
 
+						#print menu_item_name 
+
 						# Add menu_item to memcache and database if not already there
 						#if not memcache.get(menu_item_name):
 						db_item = main.MenuItem(key_name=menu_item_name + "|" + hall_name, name=menu_item_name, description=menu_item_desc, 
