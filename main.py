@@ -23,6 +23,7 @@ from google.appengine.api import memcache
 import datetime
 
 import update_memcache
+import ajaxvote
 
 template_dir = os.path.join(os.path.dirname(__file__), '')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -71,7 +72,7 @@ class MainHandler(Handler):
     		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
 
     	else:
-    		date_today = datetime.date.today()
+    		"""date_today = datetime.date.today()
     		date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
     		menus = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
     		menus = list(menus)
@@ -93,7 +94,12 @@ class MainHandler(Handler):
     		if hill != None:	
     			memcache.set("today|hill", hill)
     		if kc != None:
-    			memcache.set("today|kc", kc)
+    			memcache.set("today|kc", kc)"""
+
+    		update_memcache.update()
+    		commons_today = memcache.get("today|commons")
+    		hill_today    = memcache.get("today|hill")
+    		kc_today      = memcache.get("today|kc")
     		self.render("index.html", commons=commons, hill=hill, kc=kc)
 
     def post(self):
@@ -133,5 +139,6 @@ app = webapp2.WSGIApplication([
     ('/do', DoHandler),
     ('/crawler', crawler_gae.CrawlerHandler),
     ('/delete', DeleteDB),
-    ('/update', update_memcache.Update_Cache)
+    ('/update', update_memcache.Update_Cache),
+    ('/vote', ajaxvote.Voting)
 ], debug=True)
