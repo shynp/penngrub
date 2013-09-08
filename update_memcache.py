@@ -6,11 +6,11 @@ import main
 
 class Update_Cache(webapp2.RequestHandler):
 	def get(self):
-		self.response.out.write("lol")
+		update()
 
 		
 def update():
-	date_today = datetime.date.today()
+	date_today = datetime.date.today() - datetime.timedelta(days=2)
 	date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 
 	query_today = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)

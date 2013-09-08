@@ -100,7 +100,7 @@ class MainHandler(Handler):
     		commons_today = memcache.get("today|commons")
     		hill_today    = memcache.get("today|hill")
     		kc_today      = memcache.get("today|kc")
-    		self.render("index.html", commons=commons, hill=hill, kc=kc)
+    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
 
     def post(self):
      	self.redirect('/do')
@@ -140,5 +140,6 @@ app = webapp2.WSGIApplication([
     ('/crawler', crawler_gae.CrawlerHandler),
     ('/delete', DeleteDB),
     ('/update', update_memcache.Update_Cache),
-    ('/vote', ajaxvote.Voting)
+    ('/vote', ajaxvote.Voting),
+    ('/result', ajaxvote.Results)
 ], debug=True)

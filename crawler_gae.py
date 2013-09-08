@@ -64,7 +64,8 @@ def crawl():
 
 						# Add menu_item to memcache and database if not already there
 						#if not memcache.get(menu_item_name):
-						db_item = main.MenuItem(key_name=menu_item_name + "|" + hall_name, name=menu_item_name, description=menu_item_desc, 
+						key = menu_item_name + "|" + hall_name
+						db_item = main.MenuItem(key_name=key, name=menu_item_name, description=menu_item_desc, 
 												food_category=str(meal_category.next.next), hall_name=hall_name, upvotes_prev=0, upvotes_today=0,
 												downvotes_prev=0, downvotes_today=0)
 
@@ -79,7 +80,8 @@ def crawl():
 							db_menu.dinner.append(db_item.key())
 
 							db_item.put()
-							memcache.set(menu_item_name, db_item)
+							print key
+							memcache.set(key, db_item)
 
 			if len(db_menu.breakfast) > 0 or len(db_menu.lunch) > 0 or len(db_menu.brunch) > 0 or len(db_menu.dinner) > 0:
 				db_menu.put()
