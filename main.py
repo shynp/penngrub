@@ -63,6 +63,7 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template, **kw))
 
 class MainHandler(Handler):
+<<<<<<< HEAD
     def get(self):
     	# Added this for votes
     	update_memcache.update()
@@ -85,6 +86,41 @@ class MainHandler(Handler):
 
     def post(self):
      	self.redirect('/do')
+=======
+	def get(self):
+   		commons_today = memcache.get("today|commons")
+		hill_today    = memcache.get("today|hill")
+		kc_today      = memcache.get("today|kc")
+		if commons_today and hill_today and kc_today:
+			self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
+		else:
+			date_today = datetime.date.today() - datetime.timedelta(days=4)
+			date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+			menus = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
+			menus = list(menus)
+			for menu in menus:
+  				commons = None
+				hill    = None
+				kc      = None
+				if menu.hall_name == "Commons":
+ 					commons = menu_list(menu)
+				elif menu.hall_name == "Hill":
+					hill = menu_list(menu)
+				elif menu.hall_name == "KC":
+					kc = menu_list(menu)
+				if commons != None:
+					memcache.set("today|commons", commons)
+				if hill != None:	
+					memcache.set("today|hill", hill)
+				if kc != None:
+					memcache.set("today|kc", kc)
+			commons_today = memcache.get("today|commons")
+			hill_today    = memcache.get("today|hill")
+			kc_today      = memcache.get("today|kc")
+			self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
+	def post(self):
+		self.redirect('/do')
+>>>>>>> master
 
 class DoHandler(Handler):
 	def get(self):
@@ -95,6 +131,11 @@ class DeleteDB(Handler):
 		db.delete(MenuItem.all())
 		db.delete(Menu.all())
 		self.response.out.write("DeleteDB")
+
+class TestDateHandler(Handler):
+	def get(self):
+		date_today = datetime.date.today()
+		self.response.out.write(datetime.date.today())
 
 
 class Menu(db.Model):
@@ -120,7 +161,11 @@ app = webapp2.WSGIApplication([
     ('/do', DoHandler),
     ('/crawler', crawler_gae.CrawlerHandler),
     ('/delete', DeleteDB),
+<<<<<<< HEAD
     ('/update', update_memcache.Update_Cache),
     ('/vote', ajaxvote.Voting),
     ('/result', ajaxvote.Results)
+=======
+    ('/testdate',TestDateHandler)
+>>>>>>> master
 ], debug=True)
