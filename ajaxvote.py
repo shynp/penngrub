@@ -17,7 +17,8 @@ class Voting(webapp2.RequestHandler):
 		votes = self.request.cookies.get('vote')
 		self.response.headers.add_header('Set-Cookie', 'vote=%s&%s' % (str(votes), str(item).strip()))
 
-		key = " " + item.strip() + " |" + hall.title()
+		key = item.strip() + "|" + hall.title()
+		key = key.strip()
 		print key
 		menu_item = memcache.get(key)
 
@@ -44,15 +45,17 @@ class Voting(webapp2.RequestHandler):
 					menu_item.downvotes_prev = menu_item.downvotes_prev + 1
 
 			memcache.set(key, menu_item)
+			menu_item.put()
 		else:
 			print "else here"
 			menu_item = db.get(key)
 			menu_item.upvotes_prev = 1
 			memcache.set(key, menu_item)
+			menu_item.put()
 
  
 
 class Results(webapp2.RequestHandler):
 	def get(self):
-		cache = memcache.get(" French Fries |Hill")
+		cache = memcache.get("Turkey Dogs|Hill")
 		self.response.out.write(cache.upvotes_prev)

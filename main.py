@@ -64,43 +64,24 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
+    	# Added this for votes
+    	update_memcache.update()
+
     	commons_today = memcache.get("today|commons")
     	hill_today    = memcache.get("today|hill")
     	kc_today      = memcache.get("today|kc")
 
-    	if commons_today or hill_today or kc_today:
+    	self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
+
+    	"""if commons_today or hill_today or kc_today:
     		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
 
     	else:
-    		"""date_today = datetime.date.today()
-    		date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-    		menus = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
-    		menus = list(menus)
-
-    		commons = None
-    		hill = None
-    		kc = None
-
-    		for menu in menus:
-    			if menu.hall_name == "Commons":
-    				commons = menu_list(menu)
-    			elif menu.hall_name == "Hill":
-    				hill = menu_list(menu)
-    			elif menu.hall_name == "KC":
-    				kc = menu_list(menu)
-    		
-    		if commons != None:
-    			memcache.set("today|commons", commons)
-    		if hill != None:	
-    			memcache.set("today|hill", hill)
-    		if kc != None:
-    			memcache.set("today|kc", kc)"""
-
     		update_memcache.update()
     		commons_today = memcache.get("today|commons")
     		hill_today    = memcache.get("today|hill")
     		kc_today      = memcache.get("today|kc")
-    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
+    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)"""
 
     def post(self):
      	self.redirect('/do')
