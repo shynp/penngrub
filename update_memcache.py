@@ -2,33 +2,46 @@ from google.appengine.api import memcache
 from google.appengine.ext import db
 import webapp2
 import datetime
-from crawler_gae import crawl
 import main
 
 class Update_Cache(webapp2.RequestHandler):
 	def get(self):
-		update()
+		self.response.out.write("lol")
 
 		
 def update():
 	date_today = datetime.date.today()
 	date_tomorrow = datetime.date.today() + datetime.timedelta(days=1)
 
-	commons_today = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_today, hall="Commons")
-	hill_today    = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_today, hall="Hill")
-	kc_today      = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_today, hall="KC")
+	query_today = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_today)
+	query_today = list(query_today)
 
-	commons_tomorrow = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_tomorrow, hall="Commons")
-	hill_tomorrow    = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_tomorrow, hall="Hill")
-	kc_tomorrow      = db.GqlQuery("SELECT * FROM Menu WHERE date=:date_today AND hall_name=:hall", date_today=date_tomorrow, hall="KC")
+	query_tomorrow = db.GqlQuery("SELECT * FROM Menu WHERE date=:1", date_tomorrow)
+	query_tomorrow = list(query_tomorrow)
 
-	commons_today = main.menu_list(list(commons_today)[0])
-	hill_today = main.menu_list(list(hill_today)[0])
-	kc_today = main.menu_list(list(kc_today)[0])
+	commons_today    = None
+	hill_today       = None
+	kc_today         = None
+	commons_tomorrow = None
+	hill_tomorrow    = None
+	kc_tomorrow      = None
 
-	commons_tomorrow = main.menu_list(list(commons_tomorrow)[0])
-	hill_tomorrow = main.menu_list(list(hill_tomorrow)[0])
-	kc_tomorrow = main.menu_list(list(kc_tomorrow)[0])
+	for menu in query_today:
+		if menu.hall_name == "Commons":
+			commons_today = main.menu_list(menu)
+		elif menu.hall_name == "Hill":
+			hill_today = main.menu_list(menu)
+		elif menu.hall_name == "KC":
+			kc_today = main.menu_list(menu)
+
+	for menu in query_tomorrow:
+		if menu.hall_name == "Commons":
+			commons_tomorrow = main.menu_list(menu)
+		elif menu.hall_name == "Hill":
+			hill_tomorrow = main.menu_list(menu)
+		elif menu.hall_name == "KC":
+			kc_tomorrow = main.menu_list(menu)
+
 
 	memcache.set("today|commons", commons_today)
 	memcache.set("today|hill", hill_today)
