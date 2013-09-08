@@ -63,30 +63,6 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template, **kw))
 
 class MainHandler(Handler):
-<<<<<<< HEAD
-    def get(self):
-    	# Added this for votes
-    	update_memcache.update()
-
-    	commons_today = memcache.get("today|commons")
-    	hill_today    = memcache.get("today|hill")
-    	kc_today      = memcache.get("today|kc")
-
-    	self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
-
-    	"""if commons_today or hill_today or kc_today:
-    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
-
-    	else:
-    		update_memcache.update()
-    		commons_today = memcache.get("today|commons")
-    		hill_today    = memcache.get("today|hill")
-    		kc_today      = memcache.get("today|kc")
-    		self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)"""
-
-    def post(self):
-     	self.redirect('/do')
-=======
 	def get(self):
    		commons_today = memcache.get("today|commons")
 		hill_today    = memcache.get("today|hill")
@@ -120,7 +96,6 @@ class MainHandler(Handler):
 			self.render("index.html", commons=commons_today, hill=hill_today, kc=kc_today)
 	def post(self):
 		self.redirect('/do')
->>>>>>> master
 
 class DoHandler(Handler):
 	def get(self):
@@ -161,11 +136,8 @@ app = webapp2.WSGIApplication([
     ('/do', DoHandler),
     ('/crawler', crawler_gae.CrawlerHandler),
     ('/delete', DeleteDB),
-<<<<<<< HEAD
     ('/update', update_memcache.Update_Cache),
     ('/vote', ajaxvote.Voting),
     ('/result', ajaxvote.Results)
-=======
-    ('/testdate',TestDateHandler)
->>>>>>> master
+
 ], debug=True)
